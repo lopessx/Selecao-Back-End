@@ -1,4 +1,55 @@
+# Requisitos entregues
+
+#### Obrigatórios:
+- O sistema deverá gerenciar os usuários, permitindo-os se cadastrar e editar seu cadastro.
+**Explicação:** O gerenciamento de usuários é feito através das rotas:
+GET     /api/user/{id} - Consulta as informações do usuário e requer autenticação
+POST    /api/user - Cadastra um novo usuário e não requer autenticação
+PUT     /api/user/{id} - Edita um usuário requer autenticação
+DELETE  /api/user/{id} - Deleta um usuário requer autenticação;
+
+- O sistema poderá autenticar o usuário através do e-mail e senha do usuário e, nas outras requisições, utilizar apenas um token de identificação.
+**Explicação:** Foi criada uma rota para login, a mesma utiliza funcionaldiades nativa de autenticação do Laravel Sanctum:
+POST    /api/login - Faz o login do usuário requer email e senha e não requer autenticação;
+Todas as outras rotas são protegidas via middleware e qualquer tentativa de acesso de um usuário não autenticado ou usuário tentar acessar recurso não autorizado retorna o erro http 401. Caso a requisição tenha no header o Bearer Token gerado ao realizar o login o usuário irá conseguir ter acesso a funcionalidade.
+
+- O sistema deverá retornar comentários a todos que o acessarem, porém deverá permitir inserir comentários apenas a usuários autenticados
+**Explicação:** Existem duas rotas principais na área de comentários
+GET     /api/comment - Rota que não requer autenticação e retorna de forma paginada todos os comentários cadastrados no sistema, hoário de criação e atualização, usuário que criou o comentário.
+
+POST    /api/comment/post - Rota autenticada que permite que o usuário cadastre um novo comentário;
+
+- O sistema deverá retornar qual é o autor do comentário e dia e horário da postagem
+**Explicação:**;
+Já na rota de consulta de comentários é retornado no json de respota as informações do usuário e os horários de postagem e última atualização do comentário.
+#### Desejáveis:
+
+- O sistema deverá permitir o usuário editar os próprios comentários (exibindo a data de criação do comentário e data da última edição)
+**Explicação:**
+Ao acessar a rota abaixo o usuário conseguirá realizar a alteração do conteúdo do seu comentário
+
+PUT /api/comment/{id} - Rota autenticada que permite o usuário alterar o conteúdo do seu comentário, caso o usuário tente alterar o comentário que não pertence a si próprio retornará um erro 401 com a mensagem de "user mismatch";
+
+- O sistema deverá possuir histórico de edições do comentário (Não atendido);
+
+- O sistema deverá permitir o usuário excluir os próprios comentários
+**Explicação:**
+A seguinte rota permite ao usuário excluir seu próprio comentário:
+
+DELETE /api/comment/{id} - Rota autenticada que permite o usuário deletar o seu comentário, caso o usuário tente deletar um comentário que não pertence a si próprio retornará um erro 401 com a mensagem de "user mismatch";;
+
+- O sistema deverá possuir um usuário administrador que pode excluir todos os comentários (Não atendido);
+
+- O sistema deverá criptografar a senha do usuário
+**Explicação:**
+Todas as senhas são armazenadas em banco de dados de forma criptografada utilizando hash;
+
+- Implementação de testes automatizados utilizando phpunit
+**Explicação:**
+Foi implementado testes de funcionalidade para a api, ao executar o comando php artisan test o sistema testará todas as rotas da API.
+
 # Selecao-Back-End
+
 Você deverá forkar este repositório para fazer o seu exercício. Para entregar envie o link do seu repositório por e-mail.
 
 O exercício deve ser feito apenas pelo candidato e tem como objetivo medir o seu nível de conhecimento para melhor alocação dentro da Betalabs. Existem as seguintes exigências técnicas:
